@@ -1,0 +1,80 @@
+create database Insurancee;
+use Insurancee;
+ create table person
+ (driver_id varchar(10),
+ name varchar(10),
+ address varchar(10),
+ primary key(driver_id));
+ select * from person;
+ alter table person
+ modify name varchar(20);
+ alter table person
+ modify address varchar(30);
+ 
+ create table car
+ (reg_no varchar(10),
+ model varchar(20),
+ year int,
+ primary key(reg_no));
+ select * from car;
+ 
+ create table accident
+ (report_num int,
+ accident_date date,
+ location varchar(20),
+ primary key(report_num));
+ select * from accident;
+ 
+ create table owns
+ (driver_id varchar(10),
+ reg_no varchar(10),
+ primary key(driver_id,reg_no),
+ foreign key(driver_id) references person(driver_id),
+ foreign key(reg_no) references car(reg_no));
+ select * from owns;
+ 
+ create table participated
+ (driver_id varchar(10),
+ reg_no varchar(10),
+ report_num int,
+ damage_amount int,
+ primary key(driver_id,reg_no,report_num),
+ foreign key(driver_id) references person(driver_id),
+ foreign key(reg_no) references car(reg_no),
+ foreign key(report_num) references accident(report_num));
+ select * from participated;
+ 
+ insert into person
+ values("A01","Richard","Srinivas nagar"),
+       ("A02","Pradeep","Rajaji nagar"),
+       ("A03","Smith","Ashok nagar"),
+       ("A04","Venu","NR Colony"),
+       ("A05","Jhon","Hanumanth nagar");
+insert into car
+values("KA052250","Indica",1990),
+	  ("KA031181","Lancer",1957),
+      ("KA095477","Toyota",1998),
+      ("KA053408","Honda",2008),
+      ("KA041702","Audi",2005);
+insert into owns
+values("A01","KA052250"),
+	  ("A02","KA053408"),
+      ("A03","KA031181"),
+      ("A04","KA095477"),
+      ("A05","KA041702");
+insert into accident 
+values(11,"2003-01-01","Mysore Road");
+insert into accident
+values(12,"2004-02-02","South End circle"),
+	  (13,"2003-01-21","Bull Temple Road"),
+      (14,"2008-02-17","Mysore Road"),
+      (15,"2005-03-04","Kanakapura road");
+insert into participated
+values("A01","KA052250",11,10000);
+insert into participated
+values("A02","KA053408",12,50000),
+      ("A03","KA095477",13,25000),
+      ("A04","KA031181",14,3000),
+      ("A05","KA041702",15,5000);
+update participated 
+set damage_amount=25000 where report_num=12 and reg_no="KA053408";   
